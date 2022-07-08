@@ -697,8 +697,8 @@ def isValidAmount(amount):
     try:
         if type(amount) is not float:
             raise ValueError
-        float(amount)
-        return True
+        else:
+            return True
     except ValueError:
     	return False
 
