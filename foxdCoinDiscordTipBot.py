@@ -82,13 +82,13 @@ async def info(ctx):
 
 
         WHERE:
-            `[address] = withdraw #$PAC address`
+            `[address] = withdraw #$FOXD address`
             `[user] = discord username`
-            `[amount] = amount of #$PAC to utilise`
+            `[amount] = amount of #$FOXD to utilise`
 
      *NOTE*:
-      - don't deposit a significant amount of #$PAC through this #BOT
-      - make sure that you enter a valid #$PAC address when you perform a withdraw
+      - don't deposit a significant amount of #$FOXD through this #BOT
+      - make sure that you enter a valid #$FOXD address when you perform a withdraw
       - we are not responsible of your funds if something bad happen to this #BOT 
      ```
           USE THIS #BOT AT YOUR OWN RISK
@@ -138,7 +138,7 @@ async def balance(ctx):
     balance = float(ret)
     balance = str('{:,.8f}'.format(balance))
 
-    msg = '@{0} your current balance is: {1} $PAC'.format(user_name, balance)
+    msg = '@{0} your current balance is: {1} $FOXD'.format(user_name, balance)
     embed = discord.Embed(color=discord.Color.green())
     embed.add_field(name="BALANCE", value=msg, inline=True)
 
@@ -232,13 +232,13 @@ async def tip(ctx):
     target_uuid = str(''.join(uuid))
 
     if amount > 100000 or amount < 1:
-        msg = "Please send value between 1 and 100,000 $PAC!"
+        msg = "Please send value between 1 and 100,000 $FOXD!"
         embed = discord.Embed(color=discord.Color.red())
         embed.add_field(name="ERROR", value=msg, inline=True)
         await bot.say(embed=embed)
         return False
     if target_uuid == user_uuid:
-        msg = "You can't tip yourself silly!"
+        msg = "You can't tip yourself!"
         embed = discord.Embed(color=discord.Color.red())
         embed.add_field(name="ERROR", value=msg, inline=True)
         await bot.say(embed=embed)
@@ -296,7 +296,7 @@ async def tip(ctx):
         await bot.say(embed=embed)
         return False
 
-    msg = '@{0} tipped {1} of {2} $PAC'.format(user_name, target, amount)
+    msg = '@{0} tipped {1} of {2} $FOXD'.format(user_name, target, amount)
     embed = discord.Embed(color=discord.Color.green())
     embed.add_field(name="TIP", value=msg, inline=True)
 
@@ -338,7 +338,7 @@ async def rain(ctx):
     amount = float(message[1])
 
     if amount > 100000 or amount < 1:
-        msg = "Please send value between 1 and 100,000 $PAC!"
+        msg = "Please send value between 1 and 100,000 $FOXD!"
         embed = discord.Embed(color=discord.Color.red())
         embed.add_field(name="ERROR", value=msg, inline=True)
         await bot.say(embed=embed)
@@ -402,10 +402,10 @@ async def rain(ctx):
     user_list = ",".join(sub_list[0:2])
     other_list = online - 50;
     if online > 50:
-        msg = "{} invoked rain spell with {} $PAC over #{} 50 users ({}) and {} other people"\
+        msg = "{} invoked rain spell with {} $FOXD over #{} 50 users ({}) and {} other people"\
               .format(user_name, pamount, online, user_list, other_list)
     else:
-       msg = "{} invoked rain spell with {} $PAC over #{} users ({})"\
+       msg = "{} invoked rain spell with {} $FOXD over #{} users ({})"\
              .format(user_name, pamount, online, user_list)
     embed = discord.Embed(color=discord.Color.green())
     embed.add_field(name="RAIN", value=msg, inline=True)
@@ -440,7 +440,7 @@ async def withdraw(ctx):
         return False
 
     if not isValidAddress(message[1]):
-        msg = 'Please input a valid $PAC address!'
+        msg = 'Please input a valid $FOXD address!'
         embed = discord.Embed(color=discord.Color.red())
         embed.add_field(name="ERROR", value=msg, inline=True)
         await bot.say(embed=embed)
@@ -495,7 +495,7 @@ async def withdraw(ctx):
         await bot.say(embed=embed)
         return False
 
-    msg = '@{0} has successfully withdrew {2} $PAC to address: {1}'\
+    msg = '@{0} has successfully withdrew {2} $FOXD to address: {1}'\
               .format(user_name, address, amount)
     embed = discord.Embed(color=discord.Color.green())
     embed.add_field(name="WITHDRAW", value=msg, inline=True)
@@ -504,14 +504,14 @@ async def withdraw(ctx):
 
 
 def yobit(market):
-    getmarket = 'https://yobit.net/api/3/ticker/pac_'+market.lower()
+    getmarket = 'https://yobit.net/api/3/ticker/foxd_'+market.lower()
     response  = requests.get(getmarket)
     json_data = response.json()
 
-    if not json_data or not json_data.get('pac_btc') or json_data.get('error'):
+    if not json_data or not json_data.get('foxd_btc') or json_data.get('error'):
       return {}
 
-    json_data = json_data.get('pac_btc')
+    json_data = json_data.get('foxd_btc')
     message = {}
 
     message['*LastPrice*'] = '{:,.8f}'.format(float(json_data['last']))
@@ -524,7 +524,7 @@ def yobit(market):
 
 
 def cryptopia(market):
-    getmarket = 'https://www.cryptopia.co.nz/api/GetMarket/$PAC_'+market
+    getmarket = 'https://www.cryptopia.co.nz/api/GetMarket/$FOXD_'+market
     response  = requests.get(getmarket)
     json_data = response.json()
 
@@ -543,7 +543,7 @@ def cryptopia(market):
     return message
 
 def tradesatoshi(market):
-    getmarket = 'https://tradesatoshi.com/api/public/GetTicker?market=$PAC_'+market
+    getmarket = 'https://tradesatoshi.com/api/public/GetTicker?market=$FOXD_'+market
     response  = requests.get(getmarket)
     json_data = response.json()
 
@@ -695,13 +695,13 @@ def isValidUsername(user):
 
 def isValidAmount(amount):
     try:
+        if type(amount) is not float:
+            raise ValueError
         float(amount)
+        return True
     except ValueError:
     	return False
-    else:
-        return True
 
 
 if __name__ == '__main__':
     main()
-
