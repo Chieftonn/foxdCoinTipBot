@@ -8,7 +8,7 @@ sudo apt-get install git
 
 ## Install:
 ```bash
-git clone https://github.com/chieftonn/foxdCoinTipBot
+git clone https://github.com/git-infinianti/foxdCoinTipBot
 bash ~/foxdCoinTipBot/install.sh
 ```
 
