@@ -26,7 +26,6 @@ LOG_FILE = '____CHANGEME____'
 ''' end configuration section '''
 
 
-
 ''' DO NOT EDIT BELLOW THS LINE '''
 
 fh = logging.FileHandler(LOG_FILE)
@@ -43,24 +42,16 @@ bot.remove_command('help')
 
 
 @bot.command(pass_context=True)
-async def help(ctx):
-    text = ctx.message.content
-    name = ctx.message.author.name
-    uuid = ctx.message.author.id
-
+async def help():
     n="The following commands are at your disposal:"
     v="!info, !balance, !deposit, !withdraw, !tip, !rain, !price, and !time"
     msg = discord.Embed(color=0x00b3b3)
     msg.add_field(name=n, value=v, inline=False)
-
     await bot.say(embed=msg)
 
 
 @bot.command(pass_context=True)
 async def info(ctx):
-    uuid = ctx.message.author.id
-    name = ctx.message.author.name
-
     msg = \
     """
       ```
@@ -91,12 +82,9 @@ async def info(ctx):
      ```
           USE THIS #BOT AT YOUR OWN RISK
      ```
-
     """
-
     embed = discord.Embed(color=0x00b3b3)
     embed.add_field(name="\a", value=msg, inline=False)
-
     await bot.say(embed=embed)
 
 
@@ -104,7 +92,6 @@ async def info(ctx):
 async def balance(ctx):
     user_name = ctx.message.author.name
     user_uuid = ctx.message.author.id
-
     if user_name is None:
         msg = "Invalid username!"
         embed = discord.Embed(color=discord.Color.red())
@@ -124,23 +111,18 @@ async def balance(ctx):
         embed.add_field(name="ERROR", value=msg, inline=True)
         await bot.say(embed=embed)
         return False
-
     balance = float(ret)
     balance = str('{:,.8f}'.format(balance))
-
     msg = f'@{user_name} your current balance is: {balance} $FOXD'
     embed = discord.Embed(color=discord.Color.green())
     embed.add_field(name="BALANCE", value=msg, inline=True)
-
     await bot.send_message(ctx.message.author, embed=embed)
-    #await bot.say(embed=embed)
 
 
 @bot.command(pass_context=True)
 async def deposit(ctx):
     user_name = ctx.message.author.name
     user_uuid = ctx.message.author.id
-
     if user_name is None:
         msg = "Invalid username!"
         embed = discord.Embed(color=discord.Color.red())
@@ -163,16 +145,13 @@ async def deposit(ctx):
     msg = f'@{user_name} your depositing address is: `{ret}`'
     embed = discord.Embed(color=discord.Color.green())
     embed.add_field(name="DEPOSIT", value=msg, inline=True)
-
     await bot.send_message(ctx.message.author, embed=embed)
-    # await bot.say(embed=embed)
 
 
 @bot.command(pass_context=True)
 async def tip(ctx):
     user_name = ctx.message.author.name
     user_uuid = ctx.message.author.id
-
     if user_name is None:
         msg = "Invalid username!"
         embed = discord.Embed(color=discord.Color.red())
@@ -185,7 +164,6 @@ async def tip(ctx):
         embed.add_field(name="ERROR", value=msg, inline=True)
         await bot.say(embed=embed)
         return False
-    
     message = ctx.message.content.split(' ')
     if len(message) != 3:
         msg = "Please use !tip <username> <amount>!"
@@ -193,7 +171,6 @@ async def tip(ctx):
         embed.add_field(name="ERROR", value=msg, inline=True)
         await bot.say(embed=embed)
         return False
-
     if not isValidUsername(message[1]):
         msg = "Please input a valid username (ex: @JonDoe01#0964)!"
         embed = discord.Embed(color=discord.Color.red())
@@ -206,12 +183,10 @@ async def tip(ctx):
         embed.add_field(name="ERROR", value=msg, inline=True)
         await bot.say(embed=embed)
         return False
-
     amount = float(message[2])
     target = message[1]
     uuid = list(filter(str.isdigit, target))
     target_uuid = str(''.join(uuid))
-
     if amount > 100000 or amount < 1:
         msg = "Please send value between 1 and 100,000 $FOXD!"
         embed = discord.Embed(color=discord.Color.red())
@@ -256,11 +231,9 @@ async def tip(ctx):
         embed.add_field(name="ERROR", value=msg, inline=True)
         await bot.say(embed=embed)
         return False
-
     msg = f'@{user_name} tipped {target} of {amount} $FOXD'
     embed = discord.Embed(color=discord.Color.green())
     embed.add_field(name="TIP", value=msg, inline=True)
-
     await bot.say(embed=embed)
 
     
@@ -268,7 +241,6 @@ async def tip(ctx):
 async def rain(ctx):
     user_name = ctx.message.author.name
     user_uuid = ctx.message.author.id
-
     if user_name is None:
         msg = "Invalid username!"
         embed = discord.Embed(color=discord.Color.red())
@@ -281,7 +253,6 @@ async def rain(ctx):
         embed.add_field(name="ERROR", value=msg, inline=True)
         await bot.say(embed=embed)
         return False
-    
     message = ctx.message.content.split(' ')
     if len(message) != 2:
         msg = "Please use !rain <amount>!"
@@ -295,9 +266,7 @@ async def rain(ctx):
         embed.add_field(name="ERROR", value=msg, inline=True)
         await bot.say(embed=embed)
         return False
-
     amount = float(message[1])
-
     if amount > 100000 or amount < 1:
         msg = "Please send value between 1 and 100,000 $FOXD!"
         embed = discord.Embed(color=discord.Color.red())
@@ -311,45 +280,38 @@ async def rain(ctx):
         embed.add_field(name="ERROR", value=msg, inline=True)
         await bot.say(embed=embed)
         return False
-
     balance = float(ret)
-
     if balance < amount:
-        msg = '@{0} you have insufficent funds.'.format(user_name)
+        msg = f'@{user_name} you have insufficent funds.'
         embed = discord.Embed(color=discord.Color.red())
         embed.add_field(name="ERROR", value=msg, inline=True)
         await bot.say(embed=embed)
         return False
-
     users_online = {}
     for server in bot.servers:
-      for u in server.members:
-        if str(u.status) is 'online':
-          users_online[u.id] = u.name
-
+        for u in server.members:
+            if str(u.status) is 'online': users_online[u.id] = u.name
     online  = len(users_online)
-    pamount = '{:.8f}'.format(float(amount/online))
-
+    pamount = str(float(amount/online))
     for key in sorted(users_online):
-      time_util.sleep(0.1)
-      target_uuid = key
-      target_name = users_online[target_uuid]
-      tx = await rpc_call('move', [str(user_uuid), str(target_uuid), str(pamount)])
-      if tx is None:
-          msg = f"failed to #tip @{target_name}!"
-          embed = discord.Embed(color=discord.Color.red())
-          embed.add_field(name="ERROR", value=msg, inline=True)
-          await bot.say(embed=embed)
-          return False
+        time_util.sleep(0.1)
+        target_uuid = key
+        target_name = users_online[target_uuid]
+        tx = await rpc_call('move', [str(user_uuid), str(target_uuid), str(pamount)])
+        if tx is None:
+            msg = f"failed to #tip @{target_name}!"
+            embed = discord.Embed(color=discord.Color.red())
+            embed.add_field(name="ERROR", value=msg, inline=True)
+            await bot.say(embed=embed)
+            return False
     sub_list = list(users_online.values())
     user_list = ",".join(sub_list[0:2])
-    other_list = online - 50;
+    other_list = online - 50
     _msg = f"{user_name} invoked rain spell with {pamount} $FOXD over #{online}"
     if online > 50: msg = f"{_msg} 50 users ({user_list}) and {other_list} other people"
     else: msg = f"{_msg} users ({user_list})"
     embed = discord.Embed(color=discord.Color.green())
     embed.add_field(name="RAIN", value=msg, inline=True)
-
     await bot.say(embed=embed)
 
 
@@ -412,23 +374,18 @@ async def withdraw(ctx):
         embed.add_field(name="ERROR", value=msg, inline=True)
         await bot.say(embed=embed)
         return False
-
     msg = f'@{user_name} has successfully withdrew {amount} $FOXD to address: {address}'
     embed = discord.Embed(color=discord.Color.green())
     embed.add_field(name="WITHDRAW", value=msg, inline=True)
-
     await bot.say(embed=embed)
 
 
 @bot.command(pass_context=True)
 async def time(ctx):
-
     msg = datetime.utcnow().strftime("%a %b %d %H:%M:%S %Y") + " UTC\n"
     msg += datetime.now(timezone('EST')).strftime("%a %b %d %H:%M:%S %Y %Z")
-
     embed = discord.Embed(color=0x00b3b3)
     embed.add_field(name="TIME", value=msg, inline=True)
-
     await bot.say(embed=embed)
 
 
@@ -439,20 +396,15 @@ async def on_ready(): print('Bot is ready for use!')
 @bot.event
 async def on_message(message, user: discord.Member = None):
     if message is None: return
-
-    if user is None:
-      user = message.author
-
+    if user is None: user = message.author
     msg  = message.content
     uuid = user.id
     user = user.name
-
     logger.info(f"@{user} [#{uuid}]: {msg}")
-
     cuid = str(message.channel.id)
     if cuid != BOTCHID and message.content.startswith('!'):
-      logger.info(f"wrong #BOTCHID [@{BOTCHID}]")
-      await bot.delete_message(message)
+        logger.info(f"wrong #BOTCHID [@{BOTCHID}]")
+        await bot.delete_message(message)
     else: await bot.process_commands(message)
 
 
@@ -469,22 +421,16 @@ async def rpc_call(method: str, params: list[Any]) -> dict[str, Any] | None:
     else: return json.loads(ret)
 
 
-
-def isValidUsername(user):
-    if re.match('^<@\!?[0-9]+>$', user):
-        return True
-    else:
-        return False
+def isValidUsername(user): 
+    if re.match('^<@\!?[0-9]+>$', user): return True
+    else: return False
 
 
-def isValidAmount(amount):
-    try:
-        if type(amount) is not float:
-            raise ValueError
-        else:
-            return True
-    except ValueError:
-    	return False
+def isValidAmount(amount): 
+    try: 
+        if type(amount) is not float: raise ValueError
+        else: return True
+    except ValueError: return False
 
 
 def main(): bot.run(TOKEN)

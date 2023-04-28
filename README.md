@@ -26,7 +26,7 @@ sudo systemctl status foxdCoinTelegramTipBot    (to view status of TipBot proces
 Discord TipBOT
 
 sudo systemctl enable foxdCoinDiscordTipBot    (to enable TipBot at boot)
-sudo systemctl disable foxdCoinDiscordTipBot    (to disable TipBot at boot)
+sudo systemctl disable foxdCoinDiscordTipBot   (to disable TipBot at boot)
 sudo systemctl start foxdCoinDiscordTipBot     (to start TipBot)
 sudo systemctl stop foxdCoinDiscordTipBot      (to stop TipBot)
 sudo systemctl restart foxdCoinDiscordTipBot   (to restart TipBot)
