@@ -16,7 +16,6 @@ sudo cp -prf ~/foxdCoinTipBot/foxdCoinDiscordTipBot /etc/init.d/foxdCoinDiscordT
 sudo cp -prf ~/foxdCoinTipBot/foxdCoinDiscordTipBot.py /opt/foxdCoinTipBot/foxdCoinDiscordTipBot.py
 sudo cp -prf ~/foxdCoinTipBot/foxdCoinTelegramTipBot /etc/init.d/foxdCoinTelegramTipBot
 sudo cp -prf ~/foxdCoinTipBot/foxdCoinTelegramTipBot.py /opt/foxdCoinTipBot/foxdCoinTelegramTipBot.py
-sudo cp -prf ~/foxdCoinTipBot/pickledb.py /opt/foxdCoinTipBot/pickledb.py
 
 rm -rf ~/foxdCoinTipBot
 
