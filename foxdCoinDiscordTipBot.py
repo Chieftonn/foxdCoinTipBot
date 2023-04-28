@@ -410,7 +410,7 @@ async def on_message(message, user: discord.Member = None):
 
 async def rpc_call(method: str, params: list[Any]) -> dict[str, Any] | None:
     try: result = subprocess.run((
-        lambda m, p: [APP_EXE,
+        lambda m, p: [CLI_EXE,
             f'-rpcuser={RPC_USER}',
             f'-rpcpassword={RPC_PASS}',
             m, *p])(method, params),
