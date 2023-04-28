@@ -104,15 +104,14 @@ async def balance(ctx):
         embed.add_field(name="ERROR", value=msg, inline=True)
         await bot.say(embed=embed)
         return False
-    ret = rpc_call('getbalance', [str(user_uuid)])
+    ret = await rpc_call('getbalance', [str(user_uuid)])
     if ret is None:
         msg = 'rpc internal error!'
         embed = discord.Embed(color=discord.Color.red())
         embed.add_field(name="ERROR", value=msg, inline=True)
         await bot.say(embed=embed)
         return False
-    balance = float(ret)
-    balance = str('{:,.8f}'.format(balance))
+    balance = str(round(float(balance), 8))
     msg = f'@{user_name} your current balance is: {balance} $FOXD'
     embed = discord.Embed(color=discord.Color.green())
     embed.add_field(name="BALANCE", value=msg, inline=True)
@@ -135,7 +134,7 @@ async def deposit(ctx):
         embed.add_field(name="ERROR", value=msg, inline=True)
         await bot.say(embed=embed)
         return False
-    ret = rpc_call('getaccountaddress', str(user_uuid))
+    ret = await rpc_call('getaccountaddress', str(user_uuid))
     if ret is None:
         msg = 'rpc internal error!'
         embed = discord.Embed(color=discord.Color.red())
@@ -224,7 +223,7 @@ async def tip(ctx):
         embed.add_field(name="ERROR", value=msg, inline=True)
         await bot.say(embed=embed)
         return False
-    tx = rpc_call('move', [str(user_uuid), str(target_uuid), str(amount)])
+    tx = await rpc_call('move', [str(user_uuid), str(target_uuid), str(amount)])
     if tx is None:
         msg = 'rpc internal error!'
         embed = discord.Embed(color=discord.Color.red())
